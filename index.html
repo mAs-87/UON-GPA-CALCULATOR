@@ -9,9 +9,9 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#2F4A38">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap');
   :root{
-    /* palette sampled directly from the official UoN logo */
+    /* palette sampled directly from the UoN logo */
     --maroon:#2F4A38;      /* deep arch green -> primary */
     --gold:#A8875C;        /* minaret tan-gold -> accent */
     --sage:#8E9268;        /* olive/sage border tone */
@@ -21,21 +21,29 @@
   *{box-sizing:border-box;}
   body{margin:0;background:var(--parchment);font-family:'Source Sans Pro',system-ui,sans-serif;color:#2b2418;}
   .header{background:var(--maroon);color:#fff;padding:28px 20px 32px;}
+  .level-bar{display:flex;align-items:center;gap:6px;margin-top:12px;}
+  .level-bar label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.65);}
+  .level-bar select{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:4px 8px;font-size:12px;font-weight:700;font-family:inherit;}
+  .level-bar select option{color:#2b2418;}
   .header .brand{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
   .header .brand img{height:34px;width:auto;object-fit:contain;}
-  .header .brand span{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);}
-  .header h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;margin:0;font-weight:700;}
+  .header .brand span{font-size:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);}
+  .header h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;margin:0;font-weight:700;}
   .header p{font-size:12px;margin:6px 0 0;color:rgba(255,255,255,.7);}
-  .seal-wrap{display:flex;justify-content:center;margin-top:-32px;margin-bottom:6px;}
-  .seal{width:112px;height:112px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    box-shadow:0 0 0 3px var(--gold),0 0 0 6px var(--parchment),0 0 0 7px var(--gold);}
-  .seal b{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--maroon);}
-  .seal small{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
-  .subtext{text-align:center;font-size:12px;color:var(--muted);margin:-6px 0 20px;}
+  .seal-wrap{display:flex;justify-content:center;margin-top:-32px;margin-bottom:14px;}
+  .seal{width:128px;height:128px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:0 0 0 3px var(--gold),0 0 0 6px var(--parchment),0 0 0 7px var(--gold);transition:background .3s;}
+  .seal.band-green{background:#CDEAD3;}
+  .seal.band-yellow{background:#FBF0AE;}
+  .seal.band-ltred{background:#F6D3CE;}
+  .seal.band-red{background:#EFA69D;}
+  .seal b{font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;color:var(--maroon);line-height:1;letter-spacing:.01em;font-variant-numeric:tabular-nums;}
+  .seal small{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+  .subtext{text-align:center;font-size:12px;color:var(--muted);margin:0 0 20px;}
   .wrap{max-width:520px;margin:0 auto;padding:0 16px 40px;}
   .card{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden;}
   .sem-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--linelight);}
-  .sem-head input.label{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;font-weight:700;color:var(--maroon);border:none;background:transparent;outline:none;width:60%;}
+  .sem-head select.label-select{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:.02em;color:var(--maroon);border:none;background:transparent;outline:none;}
   .sem-head .right{display:flex;align-items:center;gap:10px;}
   .sgpa{font-weight:700;font-size:14px;color:var(--gold);}
   .iconbtn{background:none;border:none;cursor:pointer;color:#888;padding:2px;display:flex;}
@@ -44,10 +52,26 @@
   .course-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
   .course-row input,.course-row select{border:1px solid var(--line);border-radius:6px;padding:6px 7px;font-size:13px;font-family:inherit;}
   .course-row .name{flex:1;min-width:0;}
-  .course-row .credits{width:44px;text-align:center;}
-  .course-row .pct{width:52px;text-align:center;}
-  .mode-btn{font-size:10px;padding:5px 6px;border-radius:6px;border:1px solid var(--line);background:#fff;color:#6b6250;cursor:pointer;flex-shrink:0;}
-  .gp-val{width:34px;text-align:right;font-size:12px;font-weight:700;color:var(--maroon);}
+  .course-row .credits{width:52px;text-align:center;}
+  .course-row .pct{width:58px;text-align:center;}
+  .col-headings{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);}
+  .col-headings .h-num{width:18px;flex-shrink:0;text-align:center;}
+  .col-headings .h-name{flex:1;min-width:0;}
+  .col-headings .h-credits{width:52px;text-align:center;}
+  .col-headings .h-mode{width:36px;flex-shrink:0;text-align:center;}
+  .col-headings .h-grade{width:58px;text-align:center;}
+  .col-headings .h-gp{width:46px;text-align:right;line-height:1.2;}
+  .col-headings .h-del{width:16px;flex-shrink:0;}
+  .row-num{width:18px;flex-shrink:0;text-align:center;font-size:11px;font-weight:700;color:var(--muted);}
+  .mode-btn{font-size:10px;padding:5px 7px;border-radius:6px;border:1px solid var(--line);background:#fff;color:#6b6250;cursor:pointer;flex-shrink:0;min-width:36px;}
+  .split-badge{font-size:12px;font-weight:700;color:var(--maroon);width:58px;text-align:center;display:inline-block;}
+  .split-row{display:flex;align-items:flex-end;gap:10px;margin:-2px 0 8px 24px;padding:6px 8px;background:var(--parchment);border-radius:6px;flex-wrap:wrap;}
+  .marks-group{display:flex;flex-direction:column;gap:2px;}
+  .marks-pct{font-size:10px;font-weight:700;color:var(--maroon);}
+  .marks-group select{border:1px solid var(--line);border-radius:5px;padding:4px 5px;font-size:12px;font-family:inherit;width:64px;text-align:center;}
+  .split-label{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;white-space:nowrap;}
+  .split-note{font-size:10px;color:var(--muted);width:100%;margin-top:2px;}
+  .gp-val{width:46px;text-align:right;font-size:12px;font-weight:700;color:var(--maroon);}
   .del{background:none;border:none;cursor:pointer;color:#B5A98A;display:flex;}
   .add-course{width:100%;margin-top:4px;padding:7px;border-radius:6px;border:none;background:var(--parchment);color:var(--maroon);font-weight:700;font-size:12px;cursor:pointer;}
   .credit-note{font-size:11px;color:#9a8f74;padding-top:6px;margin:0;}
@@ -72,11 +96,26 @@
     <span>University of Narowal</span>
   </div>
   <h1>GPA · CGPA Calculator</h1>
-  <p>Official absolute grading scale, per-semester tracking</p>
+  <p>Absolute grading scale, per-semester tracking</p>
+  <div class="level-bar">
+    <label for="levelSelect">Degree Level</label>
+    <select id="levelSelect" onchange="setDegreeLevel(this.value)">
+      <option value="bs">BS</option>
+      <option value="mphil">M.Phil.</option>
+      <option value="phd">Ph.D.</option>
+    </select>
+  </div>
+  <div class="level-bar" style="margin-top:6px;">
+    <label for="practicalSelect">Has Practicals?</label>
+    <select id="practicalSelect" onchange="setHasPracticals(this.value)">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </select>
+  </div>
 </div>
 
-<div class="seal-wrap"><div class="seal"><b id="cgpaVal">0.00</b><small>CGPA</small></div></div>
-<p class="subtext" id="totalsLine">0 total credit hours across 1 semester</p>
+<div class="seal-wrap"><div class="seal" id="sealBox"><b id="cgpaVal">0.00</b><small>CGPA</small></div></div>
+<p class="subtext" id="totalsLine">Total 0 credit hours across 1 semester</p>
 <div class="standing" id="standingWrap"></div>
 
 <div class="wrap">
@@ -86,54 +125,233 @@
   <details>
     <summary>UoN grading scale reference</summary>
     <table id="scaleTable"></table>
-    <p class="scale-note">D (49.5%) is the minimum passing grade per course. A CGPA of 2.00+ is the widely applied minimum for good academic standing — confirm exact promotion/probation rules for your program with the UoN Examination Department, as those aren't published in the public grading table.</p>
+    <p class="scale-note" id="scaleNote"></p>
   </details>
 </div>
 
 <p class="install-note">Your data is saved automatically on this device (this browser only). To use on another device, open this same file there — data does not sync between devices.</p>
 
 <script>
-const GRADE_SCALE = [
-  { grade:"A+", min:84.5, gp:4.0 },
-  { grade:"A",  min:79.5, gp:3.7 },
-  { grade:"B+", min:74.5, gp:3.4 },
-  { grade:"B",  min:69.5, gp:3.0 },
-  { grade:"B-", min:64.5, gp:2.5 },
-  { grade:"C+", min:59.5, gp:2.0 },
-  { grade:"C",  min:54.5, gp:1.5 },
-  { grade:"D",  min:49.5, gp:1.0 },
-  { grade:"F",  min:0,    gp:0.0 },
-];
+// Official grading tables per University of Narowal Regulations (effective 1 June 2026)
+const DEGREES = {
+  bs: {
+    label: "BS",
+    scale: [
+      { grade:"A+", min:85, gp:4.0 },
+      { grade:"A",  min:80, gp:3.7 },
+      { grade:"B+", min:75, gp:3.4 },
+      { grade:"B",  min:70, gp:3.0 },
+      { grade:"B-", min:65, gp:2.5 },
+      { grade:"C+", min:60, gp:2.0 },
+      { grade:"C",  min:55, gp:1.5 },
+      { grade:"D",  min:50, gp:1.0 },
+      { grade:"F",  min:0,  gp:0.0 },
+    ],
+    passNote: "D (50%) is the minimum passing grade per course.",
+    reqCGPA: (semNum) => semNum >= 8 ? 2.00 : 1.50,
+    gradNote: "2.00 CGPA is also the minimum required to complete the degree.",
+    source: "Source: BS Regulations (effective 1 June 2026), p.14, \"GRADING POLICY\" — equivalence between Letter Grading and Numerical Grading."
+  },
+  mphil: {
+    label: "M.Phil.",
+    scale: [
+      { grade:"A+", min:85, gp:4.0 },
+      { grade:"A",  min:80, gp:3.7 },
+      { grade:"B+", min:75, gp:3.4 },
+      { grade:"B",  min:70, gp:3.0 },
+      { grade:"C+", min:65, gp:2.5 },
+      { grade:"C",  min:60, gp:2.0 },
+      { grade:"F",  min:0,  gp:0.0 },
+    ],
+    passNote: "C (60%) is the minimum passing grade per course — there is no D grade at M.Phil level.",
+    reqCGPA: () => 2.00,
+    gradNote: "An overall CGPA of at least 2.50 is required for award of the M.Phil. degree.",
+    source: "Source: M.Phil. Regulations (effective 1 June 2026)."
+  },
+  phd: {
+    label: "Ph.D.",
+    scale: [
+      { grade:"A+", min:85, gp:4.0 },
+      { grade:"A",  min:80, gp:3.7 },
+      { grade:"B+", min:75, gp:3.4 },
+      { grade:"B",  min:70, gp:3.0 },
+      { grade:"F",  min:0,  gp:0.0 },
+    ],
+    passNote: "B (70%) is the minimum passing grade per course — any mark below 70% is failed and recorded as F for PhD coursework.",
+    reqCGPA: () => 3.00,
+    gradNote: "Falling below 3.00 CGPA results in the student being dropped from the program.",
+    source: "Source: Ph.D. Regulations (effective 1 June 2026) — only B and above are individually graded (matching the university's standard A+/A/B+/B cutoffs); since PhD Regulations set 70% (B) as the minimum passing mark per course, anything below that is simply F rather than a partial-credit grade."
+  },
+};
+const LEVEL_KEY = "uon-gpa-level";
+let currentLevel = (() => {
+  try { const v = localStorage.getItem(LEVEL_KEY); return DEGREES[v] ? v : "bs"; } catch { return "bs"; }
+})();
+function currentScale(){ return DEGREES[currentLevel].scale; }
+
+const PRACTICALS_KEY = "uon-gpa-has-practicals";
+let hasPracticals = (() => {
+  try { return localStorage.getItem(PRACTICALS_KEY) === "yes"; } catch { return false; }
+})();
+function setHasPracticals(val){
+  hasPracticals = val === "yes";
+  try { localStorage.setItem(PRACTICALS_KEY, val); } catch(e){ console.error(e); }
+  if (!hasPracticals){
+    // Turning practicals off: gracefully fold any course still in Theory+Practical
+    // mode back into a plain percentage, so nothing is silently lost or hidden.
+    semesters.forEach(sem=>{
+      sem.courses.forEach(c=>{
+        if (c.mode === "split"){
+          const combined = combinedSplitPercent(c);
+          c.mode = "percent";
+          c.percent = combined !== null ? String(Math.round(combined)) : "";
+          if (combined !== null){ const g = gradeFromPercent(combined); if (g) c.grade = g.grade; }
+        }
+      });
+    });
+    persist();
+  }
+  render();
+}
+
 const uid = () => Math.random().toString(36).slice(2,10);
 const STORE_KEY = "uon-gpa-standalone";
 
 function gradeFromPercent(pct){
   const p = Number(pct);
   if (isNaN(p)) return null;
-  for (const g of GRADE_SCALE) if (p >= g.min) return g;
-  return GRADE_SCALE[GRADE_SCALE.length-1];
+  const scale = currentScale();
+  for (const g of scale) if (p >= g.min) return g;
+  return scale[scale.length-1];
 }
 function gpFromGrade(letter){
-  const g = GRADE_SCALE.find(g => g.grade === letter);
+  const g = currentScale().find(g => g.grade === letter);
   return g ? g.gp : 0;
 }
-function newCourse(){ return { id: uid(), name:"", credits:"3", mode:"grade", grade:"A", percent:"" }; }
-function newSemester(n){ return { id: uid(), label:`Semester ${n}`, courses:[newCourse()], collapsed:false }; }
+function newCourse(){ return { id: uid(), name:"", credits:"3", mode:"grade", grade:"A", percent:"", theoryTotal:"100", theoryObtained:"", theoryPercent:"", practicalTotal:"50", practicalObtained:"", practicalPercent:"", splitCollapsed:false }; }
+function newSemester(n){ return { id: uid(), label:`Semester ${Math.min(n,14)}`, courses:[newCourse()], collapsed:false }; }
 
 let semesters = load();
+// Always open with every semester expanded — auto-collapse should only happen as you actively
+// complete a semester during this session, never simply because it was marked complete and
+// collapsed the last time the file was opened. Otherwise reopening the file can look like it
+// "auto-closes" a semester before you've even seen it.
+semesters.forEach(sem => { sem.collapsed = false; });
+
+// Ensures every course's stored grade actually exists on a given scale, remapping to the
+// nearest grade-point match when it doesn't. Used both when switching degree levels and as a
+// self-heal pass on load, since data saved under one degree level (e.g. a "D" grade from BS)
+// can otherwise sit invisibly mismatched if the app later opens on a different saved level
+// (e.g. M.Phil., which has no D) — the dropdown falls back to its first option while the
+// Grade Point column still computes from the old, no-longer-valid letter, producing exactly
+// the kind of mismatch between the selected grade and its displayed GP that this prevents.
+function remapCoursesToScale(oldScale, newScale){
+  semesters.forEach(sem=>{
+    sem.courses.forEach(c=>{
+      if (c.mode === "percent" && c.percent !== ""){
+        const g = gradeFromPercent(c.percent);
+        if (g) c.grade = g.grade;
+      } else if (c.mode === "split"){
+        const combined = combinedSplitPercent(c);
+        if (combined !== null){ const g = gradeFromPercent(combined); if (g) c.grade = g.grade; }
+        else if (!newScale.find(g=>g.grade===c.grade)){
+          const oldEntry = oldScale.find(g=>g.grade===c.grade);
+          const oldGp = oldEntry ? oldEntry.gp : 0;
+          let nearest = newScale[0], bestDiff = Infinity;
+          newScale.forEach(g=>{ const diff = Math.abs(g.gp-oldGp); if (diff<bestDiff){ bestDiff=diff; nearest=g; } });
+          c.grade = nearest.grade;
+        }
+      } else if (!newScale.find(g=>g.grade===c.grade)){
+        const oldEntry = oldScale.find(g=>g.grade===c.grade);
+        const oldGp = oldEntry ? oldEntry.gp : 0;
+        let nearest = newScale[0], bestDiff = Infinity;
+        newScale.forEach(g=>{ const diff = Math.abs(g.gp-oldGp); if (diff<bestDiff){ bestDiff=diff; nearest=g; } });
+        c.grade = nearest.grade;
+      }
+    });
+  });
+}
+// Self-heal on load: validate every course against the currently selected scale immediately,
+// so stale grades from a different previously-selected level never render mismatched.
+remapCoursesToScale(currentScale(), currentScale());
+persist();
+
+function setDegreeLevel(newLevel){
+  if (!DEGREES[newLevel] || newLevel === currentLevel){ return; }
+  const oldScale = currentScale();
+  currentLevel = newLevel;
+  const newScale = currentScale();
+  remapCoursesToScale(oldScale, newScale);
+  try { localStorage.setItem(LEVEL_KEY, currentLevel); } catch(e){ console.error(e); }
+  persist();
+  renderScaleReference();
+  render();
+}
+
+// Normalizes any semester/course object to the current expected shape, filling in sensible
+// defaults for missing fields. This guards against crashes from data saved by an earlier
+// version of the app (e.g. a semester saved before the "courses" array existed, or a course
+// saved before the Theory+Practical fields were added) — without this, a single malformed
+// record would silently blank out the whole app instead of just being repaired in place.
+function sanitizeCourse(c){
+  c = c && typeof c === "object" ? c : {};
+  return {
+    id: c.id || uid(),
+    name: typeof c.name === "string" ? c.name : "",
+    credits: c.credits !== undefined && c.credits !== null ? String(c.credits) : "3",
+    mode: ["grade","percent","split"].includes(c.mode) ? c.mode : "grade",
+    grade: typeof c.grade === "string" ? c.grade : "A",
+    percent: c.percent !== undefined && c.percent !== null ? String(c.percent) : "",
+    theoryTotal: ["50","75","100"].includes(String(c.theoryTotal)) ? String(c.theoryTotal) : "100",
+    theoryObtained: c.theoryObtained !== undefined && c.theoryObtained !== null ? String(c.theoryObtained) : "",
+    theoryPercent: c.theoryPercent !== undefined && c.theoryPercent !== null ? String(c.theoryPercent) : "",
+    practicalTotal: ["25","50","75","100"].includes(String(c.practicalTotal)) ? String(c.practicalTotal) : "50",
+    practicalObtained: c.practicalObtained !== undefined && c.practicalObtained !== null ? String(c.practicalObtained) : "",
+    practicalPercent: c.practicalPercent !== undefined && c.practicalPercent !== null ? String(c.practicalPercent) : "",
+    splitCollapsed: !!c.splitCollapsed,
+  };
+}
+function sanitizeSemester(sem, idx){
+  sem = sem && typeof sem === "object" ? sem : {};
+  const courses = Array.isArray(sem.courses) && sem.courses.length ? sem.courses.map(sanitizeCourse) : [newCourse()];
+  return {
+    id: sem.id || uid(),
+    label: typeof sem.label === "string" ? sem.label : `Semester ${idx+1}`,
+    courses,
+    collapsed: false,
+  };
+}
+function sanitizeSemesters(list){
+  if (!Array.isArray(list) || !list.length) return [newSemester(1)];
+  return list.map(sanitizeSemester);
+}
 
 function load(){
   try {
     const raw = localStorage.getItem(STORE_KEY);
     const parsed = raw ? JSON.parse(raw) : null;
-    return (parsed && parsed.length) ? parsed : [newSemester(1)];
+    return sanitizeSemesters(parsed);
   } catch { return [newSemester(1)]; }
 }
 function persist(){
   try { localStorage.setItem(STORE_KEY, JSON.stringify(semesters)); } catch(e){ console.error(e); }
 }
 
+// Per BS Regulations (effective 1 June 2026): for a 4(3+1) course — 3 credit hours theory,
+// 1 credit hour practical — the practical's weightage may be considered 25% of the course.
+const THEORY_WEIGHT = 0.75;
+const PRACTICAL_WEIGHT = 0.25;
+function combinedSplitPercent(c){
+  const t = Number(c.theoryPercent), p = Number(c.practicalPercent);
+  if (c.theoryPercent === "" || c.practicalPercent === "" || isNaN(t) || isNaN(p)) return null;
+  return t*THEORY_WEIGHT + p*PRACTICAL_WEIGHT;
+}
 function courseGP(c){
+  if (c.mode === "split"){
+    const combined = combinedSplitPercent(c);
+    if (combined === null) return 0;
+    const g = gradeFromPercent(combined); return g ? g.gp : 0;
+  }
   if (c.mode === "percent"){ const g = gradeFromPercent(c.percent); return g ? g.gp : 0; }
   return gpFromGrade(c.grade);
 }
@@ -143,54 +361,217 @@ function semesterStats(sem){
   return { credits, sgpa: credits ? points/credits : 0 };
 }
 
-function addSemester(){ semesters.push(newSemester(semesters.length+1)); persist(); render(); }
+function addSemester(){
+  // Adding a new semester always collapses every other semester, no exceptions —
+  // moving on to a new semester means you're done with the previous ones.
+  semesters.forEach(sem=>{ sem.collapsed = true; });
+  semesters.push(newSemester(semesters.length+1));
+  persist();
+  render();
+}
 function removeSemester(id){ semesters = semesters.filter(s=>s.id!==id); persist(); render(); }
-function addCourse(semId){ const s = semesters.find(s=>s.id===semId); s.courses.push(newCourse()); persist(); render(); }
+function addCourse(semId){
+  const s = semesters.find(s=>s.id===semId);
+  // Collapse the Theory/Practical detail panel on existing courses so the view stays clean
+  // once you move on to adding another course — same idea as auto-collapsing semesters.
+  s.courses.forEach(c=>{ c.splitCollapsed = true; });
+  s.courses.push(newCourse());
+  persist(); render();
+}
+function toggleSplitCollapse(semId, cId){
+  const s = semesters.find(s=>s.id===semId);
+  const c = s.courses.find(c=>c.id===cId);
+  c.splitCollapsed = !c.splitCollapsed;
+  render();
+}
 function removeCourse(semId, cId){ const s = semesters.find(s=>s.id===semId); s.courses = s.courses.filter(c=>c.id!==cId); persist(); render(); }
-function toggleCollapse(semId){ const s = semesters.find(s=>s.id===semId); s.collapsed = !s.collapsed; render(); }
-function toggleMode(semId,cId){ const s=semesters.find(s=>s.id===semId); const c=s.courses.find(c=>c.id===cId); c.mode = c.mode==="grade"?"percent":"grade"; persist(); render(); }
+function toggleCollapse(semId){
+  const s = semesters.find(s=>s.id===semId);
+  s.collapsed = !s.collapsed;
+  render();
+}
+function toggleMode(semId,cId){
+  const s=semesters.find(s=>s.id===semId); const c=s.courses.find(c=>c.id===cId);
+  if (hasPracticals){
+    c.mode = c.mode==="grade" ? "percent" : c.mode==="percent" ? "split" : "grade";
+  } else {
+    c.mode = c.mode==="grade" ? "percent" : "grade";
+  }
+  if (c.mode === "split") c.splitCollapsed = false; // always open when freshly switched to T+P
+  persist(); render();
+}
 function updateField(semId, cId, field, value){
   const s = semesters.find(s=>s.id===semId);
   if (cId===null){ s[field] = value; }
-  else { const c = s.courses.find(c=>c.id===cId); c[field] = value; }
+  else {
+    const c = s.courses.find(c=>c.id===cId);
+    c[field] = value;
+    if (field === "percent"){
+      const g = gradeFromPercent(value);
+      if (g) c.grade = g.grade; // keep letter grade in sync with entered marks
+    }
+    if (field === "theoryTotal"){
+      const total = Number(value) || 100;
+      if (c.theoryObtained !== "" && Number(c.theoryObtained) > total) c.theoryObtained = String(total);
+    }
+    if (field === "theoryObtained" || field === "theoryTotal"){
+      // Theory total can vary by course (50 / 75 / 100). Convert obtained marks into a
+      // percentage of that total — feeds into the same 75/25 combined weighting as before.
+      const total = Number(c.theoryTotal) || 100;
+      const obtained = c.theoryObtained === "" ? null : Number(c.theoryObtained);
+      c.theoryPercent = obtained === null || isNaN(obtained) ? "" : String(Math.round((obtained/total)*10000)/100);
+    }
+    if (field === "practicalTotal"){
+      const total = Number(value) || 50;
+      if (c.practicalObtained !== "" && Number(c.practicalObtained) > total) c.practicalObtained = String(total);
+    }
+    if (field === "practicalObtained" || field === "practicalTotal"){
+      // Per BS Regulations: each practical is out of 50 marks (100 if it covers more than
+      // one course). Convert obtained marks into a percentage of that practical component —
+      // this feeds into the same 75/25 combined weighting as before.
+      const total = Number(c.practicalTotal) || 50;
+      const obtained = c.practicalObtained === "" ? null : Number(c.practicalObtained);
+      c.practicalPercent = obtained === null || isNaN(obtained) ? "" : String(Math.round((obtained/total)*10000)/100);
+    }
+    if (field === "theoryObtained" || field === "theoryTotal" || field === "practicalPercent" || field === "practicalObtained" || field === "practicalTotal"){
+      const combined = combinedSplitPercent(c);
+      if (combined !== null){
+        const g = gradeFromPercent(combined);
+        if (g) c.grade = g.grade; // keep letter grade in sync with the weighted combined mark
+      }
+    }
+  }
   persist();
 }
 
 function esc(s){ return (s||"").toString().replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
 
-function render(){
+// Promotion/CGPA rules per University of Narowal Regulations (effective 1 June 2026) — see DEGREES object for per-level source.
+function currentSemesterNumber(){
+  let max = 1;
+  semesters.forEach(sem=>{
+    const m = String(sem.label).match(/(\d+)/);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  });
+  return max;
+}
+
+function renderInner(){
+  // Defensive self-heal: guarantee every course's grade is valid on the current scale
+  // before anything is drawn, so a stale value (e.g. "D" surviving into an M.Phil. session)
+  // can never render mismatched, no matter how it got there.
+  remapCoursesToScale(currentScale(), currentScale());
+  persist();
+
   let totalCredits=0, totalPoints=0;
   semesters.forEach(sem=>{ const {credits,sgpa}=semesterStats(sem); totalCredits+=credits; totalPoints+=credits*sgpa; });
   const cgpa = totalCredits ? totalPoints/totalCredits : 0;
   document.getElementById("cgpaVal").textContent = cgpa.toFixed(2);
-  document.getElementById("totalsLine").textContent = `${totalCredits} total credit hours across ${semesters.length} semester${semesters.length!==1?"s":""}`;
+  document.getElementById("totalsLine").textContent = `Total ${totalCredits} credit hours across ${semesters.length} semester${semesters.length!==1?"s":""}`;
+
+  const sealBox = document.getElementById("sealBox");
+  sealBox.classList.remove("band-green","band-yellow","band-ltred","band-red");
+  if (totalCredits > 0){
+    if (cgpa >= 3.0) sealBox.classList.add("band-green");
+    else if (cgpa >= 2.0) sealBox.classList.add("band-yellow");
+    else if (cgpa >= 1.5) sealBox.classList.add("band-ltred");
+    else sealBox.classList.add("band-red");
+  }
 
   const standingWrap = document.getElementById("standingWrap");
   if (totalCredits === 0){ standingWrap.innerHTML = ""; }
-  else if (cgpa >= 2.00){ standingWrap.innerHTML = `<span class="good">Good standing</span>`; }
-  else { standingWrap.innerHTML = `<span class="risk">Below 2.00 — may affect standing</span>`; }
+  else {
+    const semNum = currentSemesterNumber();
+    const required = DEGREES[currentLevel].reqCGPA(semNum);
+    const levelLabel = DEGREES[currentLevel].label;
+    if (currentLevel === "bs"){
+      standingWrap.innerHTML = cgpa >= required
+        ? `<span class="good">Meets Sem ${semNum} promotion requirement (≥ ${required.toFixed(2)})</span>`
+        : `<span class="risk">CGPA below the required ${required.toFixed(2)} for Semester ${semNum} — risk of being dropped from the university</span>`;
+    } else {
+      standingWrap.innerHTML = cgpa >= required
+        ? `<span class="good">Meets ${levelLabel} minimum CGPA requirement (≥ ${required.toFixed(2)})</span>`
+        : `<span class="risk">CGPA below the ${levelLabel} minimum requirement of ${required.toFixed(2)} — risk of being dropped from the program</span>`;
+    }
+  }
 
   const container = document.getElementById("semesters");
   container.innerHTML = semesters.map(sem=>{
     const {credits, sgpa} = semesterStats(sem);
-    const coursesHtml = sem.courses.map(c=>{
-      const gpVal = courseGP(c).toFixed(1);
+    const coursesHtml = sem.courses.map((c, idx)=>{
+      const gpVal = courseGP(c).toFixed(2);
+      const combined = c.mode==="split" ? combinedSplitPercent(c) : null;
       const gradeInput = c.mode==="grade"
-        ? `<select onchange="updateField('${sem.id}','${c.id}','grade',this.value);render()">${GRADE_SCALE.map(g=>`<option value="${g.grade}" ${c.grade===g.grade?"selected":""}>${g.grade}</option>`).join("")}</select>`
-        : `<input class="pct" value="${esc(c.percent)}" placeholder="%" oninput="updateField('${sem.id}','${c.id}','percent',this.value);render()">`;
+        ? `<select onchange="updateField('${sem.id}','${c.id}','grade',this.value);render()">${currentScale().map(g=>`<option value="${g.grade}" ${c.grade===g.grade?"selected":""}>${g.grade}</option>`).join("")}</select>`
+        : c.mode==="percent"
+        ? `<select class="pct" onchange="updateField('${sem.id}','${c.id}','percent',this.value);render()">
+            <option value="" ${c.percent===""?"selected":""}>%</option>
+            ${Array.from({length:101}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.percent)===String(n)?"selected":""}>${n}</option>`).join("")}
+          </select>`
+        : `<span class="split-badge" onclick="toggleSplitCollapse('${sem.id}','${c.id}')" title="Tap to ${c.splitCollapsed?"show":"hide"} Theory/Practical marks" style="cursor:pointer;">${combined!==null ? combined.toFixed(2)+"%" : "—"}</span>`;
+      const modeLabel = c.mode==="grade" ? "LTR" : c.mode==="percent" ? "%" : "T+P";
+      const modeTitle = c.mode==="grade" ? "Click to switch to marks %" : c.mode==="percent" ? (hasPracticals ? "Click to switch to Theory + Practical split" : "Click to switch to letter grade") : "Click to switch to letter grade";
+      const practicalTotalNum = Number(c.practicalTotal) || 50;
+      const theoryTotalNum = Number(c.theoryTotal) || 100;
+      const theoryWeighted = c.theoryPercent!=="" ? (Number(c.theoryPercent)*THEORY_WEIGHT) : null;
+      const practicalWeighted = c.practicalPercent!=="" ? (Number(c.practicalPercent)*PRACTICAL_WEIGHT) : null;
+      const combinedNote = (theoryWeighted!==null || practicalWeighted!==null)
+        ? `${theoryWeighted!==null?`Theory = ${theoryWeighted.toFixed(2)} / 75`:""}${theoryWeighted!==null&&practicalWeighted!==null?" · ":""}${practicalWeighted!==null?`Practical = ${practicalWeighted.toFixed(2)} / 25`:""}${theoryWeighted!==null&&practicalWeighted!==null?` · Combined = ${(theoryWeighted+practicalWeighted).toFixed(2)} / 100`:""}`
+        : "Enter Theory and Practical marks to see the weighted breakdown (out of 75 and out of 25).";
+      const splitRow = (c.mode==="split" && !c.splitCollapsed) ? `<div class="split-row">
+          <div class="marks-group">
+            <span class="split-label">Theory total</span>
+            <select onchange="updateField('${sem.id}','${c.id}','theoryTotal',this.value);render()">
+              <option value="50" ${c.theoryTotal==="50"?"selected":""}>50</option>
+              <option value="75" ${c.theoryTotal==="75"?"selected":""}>75</option>
+              <option value="100" ${c.theoryTotal==="100"?"selected":""}>100</option>
+            </select>
+          </div>
+          <div class="marks-group">
+            <span class="split-label">Theory — obtained /${theoryTotalNum}</span>
+            <select onchange="updateField('${sem.id}','${c.id}','theoryObtained',this.value);render()">
+              <option value="" ${c.theoryObtained===""?"selected":""}>—</option>
+              ${Array.from({length:theoryTotalNum+1}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.theoryObtained)===String(n)?"selected":""}>${n}</option>`).join("")}
+            </select>
+            ${c.theoryPercent!=="" ? `<span class="marks-pct">= ${Number(c.theoryPercent).toFixed(2)}%</span>` : ""}
+          </div>
+          <div class="marks-group">
+            <span class="split-label">Practical total</span>
+            <select onchange="updateField('${sem.id}','${c.id}','practicalTotal',this.value);render()">
+              <option value="25" ${c.practicalTotal==="25"?"selected":""}>25</option>
+              <option value="50" ${c.practicalTotal==="50"?"selected":""}>50</option>
+              <option value="75" ${c.practicalTotal==="75"?"selected":""}>75</option>
+              <option value="100" ${c.practicalTotal==="100"?"selected":""}>100</option>
+            </select>
+          </div>
+          <div class="marks-group">
+            <span class="split-label">Practical — obtained /${practicalTotalNum}</span>
+            <select onchange="updateField('${sem.id}','${c.id}','practicalObtained',this.value);render()">
+              <option value="" ${c.practicalObtained===""?"selected":""}>—</option>
+              ${Array.from({length:practicalTotalNum+1}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.practicalObtained)===String(n)?"selected":""}>${n}</option>`).join("")}
+            </select>
+            ${c.practicalPercent!=="" ? `<span class="marks-pct">= ${Number(c.practicalPercent).toFixed(2)}%</span>` : ""}
+          </div>
+          <span class="split-note">${combinedNote}</span>
+        </div>` : "";
       return `<div class="course-row">
-        <input class="name" value="${esc(c.name)}" placeholder="Course" oninput="updateField('${sem.id}','${c.id}','name',this.value)">
-        <input class="credits" value="${esc(c.credits)}" placeholder="Cr" oninput="updateField('${sem.id}','${c.id}','credits',this.value);render()">
-        <button class="mode-btn" onclick="toggleMode('${sem.id}','${c.id}')">${c.mode==="grade"?"%":"Ltr"}</button>
+        <span class="row-num">${idx+1}</span>
+        <input class="name" value="${esc(c.name)}" placeholder="Course/Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
+        <select class="credits" onchange="updateField('${sem.id}','${c.id}','credits',this.value);render()">
+          ${Array.from({length:7}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
+        </select>
+        <button class="mode-btn" onclick="toggleMode('${sem.id}','${c.id}')" title="${modeTitle}">${modeLabel}</button>
         ${gradeInput}
         <span class="gp-val">${gpVal}</span>
         <button class="del" onclick="removeCourse('${sem.id}','${c.id}')">✕</button>
-      </div>`;
+      </div>${splitRow}`;
     }).join("");
 
     return `<div class="card">
       <div class="sem-head">
-        <input class="label" value="${esc(sem.label)}" oninput="updateField('${sem.id}',null,'label',this.value)">
+        <select class="label-select" onchange="updateField('${sem.id}',null,'label',this.value);render()">
+          ${Array.from({length:14}, (_,i)=>i+1).map(n=>`<option value="Semester ${n}" ${sem.label===`Semester ${n}`?"selected":""}>Semester ${n}</option>`).join("")}
+        </select>
         <div class="right">
           <span class="sgpa">SGPA ${sgpa.toFixed(2)}</span>
           <button class="iconbtn" onclick="toggleCollapse('${sem.id}')">${sem.collapsed?"▾":"▴"}</button>
@@ -198,6 +579,15 @@ function render(){
         </div>
       </div>
       ${sem.collapsed ? "" : `<div class="sem-body">
+        <div class="col-headings">
+          <span class="h-num">#</span>
+          <span class="h-name">Course/Subject</span>
+          <span class="h-credits">CRH</span>
+          <span class="h-mode" style="width:36px;">LTR/%</span>
+          <span class="h-grade">Grade / Marks</span>
+          <span class="h-gp">Grade<br>Point</span>
+          <span class="h-del"></span>
+        </div>
         ${coursesHtml}
         <button class="add-course" onclick="addCourse('${sem.id}')">+ Add course</button>
         <p class="credit-note">${credits} credit hours this semester</p>
@@ -206,10 +596,57 @@ function render(){
   }).join("");
 }
 
-document.getElementById("scaleTable").innerHTML = GRADE_SCALE.map(g=>
-  `<tr><td>${g.grade}</td><td>${g.min===0?"below 49.5":g.min+"+"}</td><td style="text-align:right">${g.gp.toFixed(2)}</td></tr>`
-).join("");
+function showFatalError(err){
+  const container = document.getElementById("semesters");
+  container.innerHTML = `<div style="background:#fff;border:1px solid #E88C86;border-radius:10px;padding:16px;">
+      <p style="color:#A63B2E;font-weight:700;font-size:13px;margin:0 0 6px;">Something went wrong loading your data</p>
+      <p style="color:#6b6250;font-size:12px;margin:0 0 10px;word-break:break-word;">${esc(err && err.message ? err.message : String(err))}</p>
+      <button onclick="hardReset()" style="background:#2F4A38;color:#fff;border:none;border-radius:6px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;">Reset and start fresh</button>
+    </div>`;
+}
+function hardReset(){
+  try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(LEVEL_KEY); localStorage.removeItem(PRACTICALS_KEY); } catch(e){}
+  location.reload();
+}
+function render(){
+  try {
+    renderInner();
+  } catch (err) {
+    // First fallback: sanitize and retry once, in case this is a data-shape issue
+    // sanitization on load didn't anticipate.
+    console.error("Render failed, resetting to safe state:", err);
+    try {
+      semesters = sanitizeSemesters(semesters);
+      persist();
+      renderInner();
+    } catch (err2) {
+      // Both attempts failed — show the real error on screen instead of a silent blank
+      // page, with a one-click way to wipe saved data and start over.
+      console.error("Render failed again after reset:", err2);
+      showFatalError(err2);
+    }
+  }
+}
 
+function renderScaleReference(){
+  const scale = currentScale();
+  document.getElementById("scaleTable").innerHTML = scale.map((g,i)=>{
+    let range;
+    if (i === 0) range = `${g.min} – 100 %`;
+    else if (g.min === 0) range = `Below ${scale[i-1].min}%`;
+    else range = `${g.min} – ${scale[i-1].min - 1} %`;
+    return `<tr><td>${g.grade}</td><td>${range}</td><td style="text-align:right">${g.gp.toFixed(2)}</td></tr>`;
+  }).join("");
+  const d = DEGREES[currentLevel];
+  const practicalNote = hasPracticals
+    ? `<span style="display:block;margin-top:6px;">For courses with a lab component, tap the LTR/% button until it shows "T+P". Enter obtained marks for Theory and Practical against whichever totals apply — percentages and the combined 75/25-weighted grade are calculated automatically.</span>`
+    : `<span style="display:block;margin-top:6px;">If your program includes lab/practical courses, switch "Has Practicals?" above to "Yes" to unlock separate Theory + Practical mark entry per course.</span>`;
+  document.getElementById("scaleNote").innerHTML = `${d.passNote} ${d.gradNote} <span style="display:block;margin-top:4px;">${d.source}</span>${practicalNote}`;
+  document.getElementById("levelSelect").value = currentLevel;
+  document.getElementById("practicalSelect").value = hasPracticals ? "yes" : "no";
+}
+
+renderScaleReference();
 render();
 
 if ("serviceWorker" in navigator) {
