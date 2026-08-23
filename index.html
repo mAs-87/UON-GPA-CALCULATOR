@@ -565,7 +565,7 @@ function renderInner(){
         </div>` : "";
       return `<div class="course-row">
         <span class="row-num">${idx+1}</span>
-        <input class="name" value="${esc(c.name)}" placeholder="Course/Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
+        <input class="name" value="${esc(c.name)}" placeholder="Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
         <select class="credits" onchange="updateField('${sem.id}','${c.id}','credits',this.value);render()">
           ${Array.from({length:13}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
         </select>
@@ -590,7 +590,7 @@ function renderInner(){
       ${sem.collapsed ? "" : `<div class="sem-body">
         <div class="col-headings">
           <span class="h-num">#</span>
-          <span class="h-name">Course/Subject</span>
+          <span class="h-name">Subject</span>
           <span class="h-credits">CRH</span>
           <span class="h-mode" style="width:36px;">LTR/%</span>
           <span class="h-grade">Grade / Marks</span>
