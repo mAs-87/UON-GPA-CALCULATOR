@@ -567,7 +567,7 @@ function renderInner(){
         <span class="row-num">${idx+1}</span>
         <input class="name" value="${esc(c.name)}" placeholder="Course/Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
         <select class="credits" onchange="updateField('${sem.id}','${c.id}','credits',this.value);render()">
-          ${Array.from({length:7}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
+          ${Array.from({length:13}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
         </select>
         <button class="mode-btn" onclick="toggleMode('${sem.id}','${c.id}')" title="${modeTitle}">${modeLabel}</button>
         ${gradeInput}
