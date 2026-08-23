@@ -147,9 +147,12 @@ const DEGREES = {
       { grade:"D",  min:50, gp:1.0 },
       { grade:"F",  min:0,  gp:0.0 },
     ],
-    passNote: "D (50%) is the minimum passing grade per course.",
+    notes: [
+      "D (50%) is the minimum passing grade per course.",
+      "2.00 CGPA is also the minimum requirement to complete the degree.",
+      "Minimum CGPA of 1.50 is required in Semesters 1–7, and 2.00 at the end of Semester 8, to attain the degree.",
+    ],
     reqCGPA: (semNum) => semNum >= 8 ? 2.00 : 1.50,
-    gradNote: "2.00 CGPA is also the minimum required to complete the degree.",
     source: "Source: BS Regulations (effective 1 June 2026), p.14, \"GRADING POLICY\" — equivalence between Letter Grading and Numerical Grading."
   },
   mphil: {
@@ -163,9 +166,12 @@ const DEGREES = {
       { grade:"C",  min:60, gp:2.0 },
       { grade:"F",  min:0,  gp:0.0 },
     ],
-    passNote: "C (60%) is the minimum passing grade per course — there is no D grade at M.Phil level.",
+    notes: [
+      "C (60%) is the minimum passing grade per course — there is no D grade at M.Phil level.",
+      "2.00 CGPA is required each semester to remain enrolled.",
+      "An overall CGPA of at least 2.50 is required for award of the M.Phil. degree.",
+    ],
     reqCGPA: () => 2.00,
-    gradNote: "An overall CGPA of at least 2.50 is required for award of the M.Phil. degree.",
     source: "Source: M.Phil. Regulations (effective 1 June 2026)."
   },
   phd: {
@@ -177,9 +183,12 @@ const DEGREES = {
       { grade:"B",  min:70, gp:3.0 },
       { grade:"F",  min:0,  gp:0.0 },
     ],
-    passNote: "B (70%) is the minimum passing grade per course — any mark below 70% is failed and recorded as F for PhD coursework.",
+    notes: [
+      "B (70%) is the minimum passing grade per course — any mark below 70% is failed and recorded as F for PhD coursework.",
+      "3.00 CGPA must be maintained each semester.",
+      "Falling below 3.00 CGPA results in the student being dropped from the program.",
+    ],
     reqCGPA: () => 3.00,
-    gradNote: "Falling below 3.00 CGPA results in the student being dropped from the program.",
     source: "Source: Ph.D. Regulations (effective 1 June 2026) — only B and above are individually graded (matching the university's standard A+/A/B+/B cutoffs); since PhD Regulations set 70% (B) as the minimum passing mark per course, anything below that is simply F rather than a partial-credit grade."
   },
 };
@@ -639,9 +648,11 @@ function renderScaleReference(){
   }).join("");
   const d = DEGREES[currentLevel];
   const practicalNote = hasPracticals
-    ? `<span style="display:block;margin-top:6px;">For courses with a lab component, tap the LTR/% button until it shows "T+P". Enter obtained marks for Theory and Practical against whichever totals apply — percentages and the combined 75/25-weighted grade are calculated automatically.</span>`
+    ? `<span style="display:block;margin-top:6px;font-weight:700;font-style:italic;">For courses with a lab component, tap the LTR/% button until it shows "T+P". Enter obtained marks for Theory and Practical against whichever totals apply — percentages and the combined 75/25-weighted grade are calculated automatically.</span>`
     : `<span style="display:block;margin-top:6px;">If your program includes lab/practical courses, switch "Has Practicals?" above to "Yes" to unlock separate Theory + Practical mark entry per course.</span>`;
-  document.getElementById("scaleNote").innerHTML = `${d.passNote} ${d.gradNote} <span style="display:block;margin-top:4px;">${d.source}</span>${practicalNote}`;
+  const ROMAN = ["I","II","III","IV","V"];
+  const notesHtml = `<strong>Please Note:</strong><br>` + d.notes.map((n,i)=>`${ROMAN[i]}. ${n}`).join("<br>");
+  document.getElementById("scaleNote").innerHTML = `${notesHtml}${practicalNote}`;
   document.getElementById("levelSelect").value = currentLevel;
   document.getElementById("practicalSelect").value = hasPracticals ? "yes" : "no";
 }
