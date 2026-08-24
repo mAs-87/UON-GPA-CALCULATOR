@@ -49,14 +49,14 @@
   .iconbtn{background:none;border:none;cursor:pointer;color:#888;padding:2px;display:flex;}
   .iconbtn:hover{color:#333;}
   .sem-body{padding:10px;}
-  .course-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
-  .course-row input,.course-row select{border:1px solid var(--line);border-radius:6px;padding:6px 7px;font-size:13px;font-family:inherit;}
-  .course-row .name{flex:1;min-width:0;}
-  .course-row .credits{width:52px;text-align:center;}
-  .course-row .pct{width:58px;text-align:center;}
-  .col-headings{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);}
-  .col-headings .h-num{width:18px;flex-shrink:0;text-align:center;}
-  .col-headings .h-name{flex:1;min-width:0;}
+  .course-block{margin-bottom:8px;}
+  .subject-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+  .subject-row input{border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-size:13px;font-family:inherit;flex:1;min-width:0;}
+  .controls-row{display:flex;align-items:center;gap:6px;padding-left:24px;}
+  .controls-row select,.controls-row input{border:1px solid var(--line);border-radius:6px;padding:6px 7px;font-size:13px;font-family:inherit;}
+  .controls-row .credits{width:52px;text-align:center;}
+  .controls-row .pct{width:58px;text-align:center;}
+  .col-headings{display:flex;align-items:center;gap:6px;margin-bottom:4px;padding-left:24px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);}
   .col-headings .h-credits{width:52px;text-align:center;}
   .col-headings .h-mode{width:36px;flex-shrink:0;text-align:center;}
   .col-headings .h-grade{width:58px;text-align:center;}
@@ -563,16 +563,20 @@ function renderInner(){
           </div>
           <span class="split-note">${combinedNote}</span>
         </div>` : "";
-      return `<div class="course-row">
-        <span class="row-num">${idx+1}</span>
-        <input class="name" value="${esc(c.name)}" placeholder="Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
-        <select class="credits" onchange="updateField('${sem.id}','${c.id}','credits',this.value);render()">
-          ${Array.from({length:13}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
-        </select>
-        <button class="mode-btn" onclick="toggleMode('${sem.id}','${c.id}')" title="${modeTitle}">${modeLabel}</button>
-        ${gradeInput}
-        <span class="gp-val">${gpVal}</span>
-        <button class="del" onclick="removeCourse('${sem.id}','${c.id}')">✕</button>
+      return `<div class="course-block">
+        <div class="subject-row">
+          <span class="row-num">${idx+1}</span>
+          <input class="name" value="${esc(c.name)}" placeholder="Subject" oninput="updateField('${sem.id}','${c.id}','name',this.value)" onblur="render()">
+        </div>
+        <div class="controls-row">
+          <select class="credits" onchange="updateField('${sem.id}','${c.id}','credits',this.value);render()">
+            ${Array.from({length:13}, (_,i)=>i).map(n=>`<option value="${n}" ${String(c.credits)===String(n)?"selected":""}>${n}</option>`).join("")}
+          </select>
+          <button class="mode-btn" onclick="toggleMode('${sem.id}','${c.id}')" title="${modeTitle}">${modeLabel}</button>
+          ${gradeInput}
+          <span class="gp-val">${gpVal}</span>
+          <button class="del" onclick="removeCourse('${sem.id}','${c.id}')">✕</button>
+        </div>
       </div>${splitRow}`;
     }).join("");
 
@@ -589,8 +593,6 @@ function renderInner(){
       </div>
       ${sem.collapsed ? "" : `<div class="sem-body">
         <div class="col-headings">
-          <span class="h-num">#</span>
-          <span class="h-name">Subject</span>
           <span class="h-credits">CRH</span>
           <span class="h-mode" style="width:36px;">LTR/%</span>
           <span class="h-grade">Grade / Marks</span>
