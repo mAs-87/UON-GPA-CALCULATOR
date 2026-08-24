@@ -1,4 +1,4 @@
-const CACHE = "uon-gpa-v48";
+const CACHE = "uon-gpa-v49";
 const FILES = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
