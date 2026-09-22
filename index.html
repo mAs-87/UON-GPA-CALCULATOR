@@ -429,8 +429,6 @@ function updateField(semId, cId, field, value){
       if (c.theoryObtained !== "" && Number(c.theoryObtained) > total) c.theoryObtained = String(total);
     }
     if (field === "theoryObtained" || field === "theoryTotal"){
-      // Theory total can vary by course (50 / 75 / 100). Convert obtained marks into a
-      // percentage of that total — feeds into the same 75/25 combined weighting as before.
       const total = Number(c.theoryTotal) || 100;
       const obtained = c.theoryObtained === "" ? null : Number(c.theoryObtained);
       c.theoryPercent = obtained === null || isNaN(obtained) ? "" : String(Math.round((obtained/total)*10000)/100);
@@ -440,9 +438,6 @@ function updateField(semId, cId, field, value){
       if (c.practicalObtained !== "" && Number(c.practicalObtained) > total) c.practicalObtained = String(total);
     }
     if (field === "practicalObtained" || field === "practicalTotal"){
-      // Per BS Regulations: each practical is out of 50 marks (100 if it covers more than
-      // one course). Convert obtained marks into a percentage of that practical component —
-      // this feeds into the same 75/25 combined weighting as before.
       const total = Number(c.practicalTotal) || 50;
       const obtained = c.practicalObtained === "" ? null : Number(c.practicalObtained);
       c.practicalPercent = obtained === null || isNaN(obtained) ? "" : String(Math.round((obtained/total)*10000)/100);
@@ -451,7 +446,7 @@ function updateField(semId, cId, field, value){
       const combined = combinedSplitPercent(c);
       if (combined !== null){
         const g = gradeFromPercent(combined);
-        if (g) c.grade = g.grade; // keep letter grade in sync with the weighted combined mark
+        if (g) c.grade = g.grade;
       }
     }
   }
@@ -460,7 +455,6 @@ function updateField(semId, cId, field, value){
 
 function esc(s){ return (s||"").toString().replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
 
-// Promotion/CGPA rules per University of Narowal Regulations (effective 1 June 2026) — see DEGREES object for per-level source.
 function currentSemesterNumber(){
   let max = 1;
   semesters.forEach(sem=>{
@@ -471,9 +465,6 @@ function currentSemesterNumber(){
 }
 
 function renderInner(){
-  // Defensive self-heal: guarantee every course's grade is valid on the current scale
-  // before anything is drawn, so a stale value (e.g. "D" surviving into an M.Phil. session)
-  // can never render mismatched, no matter how it got there.
   remapCoursesToScale(currentScale(), currentScale());
   persist();
 
@@ -628,16 +619,12 @@ function render(){
   try {
     renderInner();
   } catch (err) {
-    // First fallback: sanitize and retry once, in case this is a data-shape issue
-    // sanitization on load didn't anticipate.
     console.error("Render failed, resetting to safe state:", err);
     try {
       semesters = sanitizeSemesters(semesters);
       persist();
       renderInner();
     } catch (err2) {
-      // Both attempts failed — show the real error on screen instead of a silent blank
-      // page, with a one-click way to wipe saved data and start over.
       console.error("Render failed again after reset:", err2);
       showFatalError(err2);
     }
@@ -673,5 +660,23 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
+<script>
+(function() {
+  if (typeof window.AndroidAd === 'undefined') {
+    document.body.innerHTML = `
+      <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;font-family:sans-serif;background:#2F4A38;color:#fff;">
+        <div style="background:#fff;border-radius:16px;padding:8px;margin-bottom:20px;">
+          <img src="icon-192.png" alt="UoN GPA Calculator" style="width:64px;height:64px;display:block;">
+        </div>
+        <h1 style="font-family:'Cormorant Garamond',Georgia,serif;margin-bottom:10px;">Download Our App</h1>
+        <p style="max-width:320px;margin-bottom:20px;color:rgba(255,255,255,.85);">This calculator is only available inside the UoN GPA Calculator app.</p>
+        <a href="https://play.google.com/store/apps/details?id=io.github.mas_87.twa" style="background:#A8875C;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;">Get it on Google Play</a>
+      </div>
+    `;
+  }
+})();
+</script>
+
 </body>
 </html>
